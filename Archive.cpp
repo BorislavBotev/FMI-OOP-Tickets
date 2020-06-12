@@ -88,6 +88,7 @@ void Archive::openFile(char*file)
         }
     }
     std::cout<<"File with name:"<<file<<" has been uploaded"<<std::endl;
+    is.close();
 }
 void Archive::addHallFromFile(int id,int rows,int seats,int eventsCount)
 {
@@ -104,5 +105,13 @@ void Archive::printHalls()
     {
         std::cout<<*halls[i]<<std::endl;
     }
+}
+void Archive::close()
+{
+    deleteArray(halls,hallsSize);
+    delete[]halls;
+    hallsSize=0;
+    hallsCapacity=5;
+    std::cout<<"Sucessfully closed file"<<std::endl;
 }
 

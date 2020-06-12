@@ -7,6 +7,8 @@
 #include "MyException.hpp"
 #include "GlobalFunctions.hpp"
 #include "OpenCommand.hpp"
+#include "CloseException.hpp"
+#include "ExitException.hpp"
 class Application
 {
     Command* command;

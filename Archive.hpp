@@ -20,6 +20,7 @@ public:
     ~Archive();
     void createInitialHalls();
     void openFile(char*file);
+    void close();
     void printHalls();
 
 
