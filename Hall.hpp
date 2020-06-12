@@ -14,8 +14,12 @@ public:
     Hall(int id,int rows,int seats);
     Hall(int id,int rows,int seats,int eventsCount);
     void addEventFromFile(Event&event);
+    int getId();
+    int getRows();
+    int getSeats();
+    int getEventsSize();
 
 
 };
-
+std::ostream& operator<<(std::ostream&os,Hall &h);
 #endif

@@ -18,8 +18,10 @@ class Archive
 public:
     Archive();
     ~Archive();
-    void createHalls();
+    void createInitialHalls();
     void openFile(char*file);
+    void printHalls();
+
 
 
 };

@@ -2,20 +2,33 @@
 Archive::Archive()
 {
     //currentHall=NULL;
-    halls=NULL;
+    hallsSize=0;
+    hallsCapacity=5;
+    halls=new Hall*[hallsCapacity];
 }
 Archive::~Archive()
 {
     // delete currentHall;
     deleteArray(halls,COUNT_HALLS);
 }
-void Archive::createHalls()
+void Archive::createInitialHalls()
 {
-    halls=new Hall*[COUNT_HALLS];
-    for(int i=0; i<COUNT_HALLS; i++)
+    std::ofstream os("db",std::ios::binary);
+    if(!os.is_open())
     {
-        halls[i]=new Hall(i+1,i*10,i+5);
+        throw MyException("Can not download db");
     }
+    int id=IDENTIFICATION;
+    int countHalls=COUNT_HALLS;
+    os.write((char const*)&id,sizeof(int));
+    os.write((char const*)&countHalls,sizeof(int));
+    for(int i=1; i<=COUNT_HALLS; i++)
+    {
+        FileHall h(i,10*i,5+i);
+        os.write((char const*)&h,sizeof(FileHall));
+    }
+    os.close();
+    std::cout<<"Successfully made DB"<<std::endl;
 }
 void Archive::openFile(char*file)
 {
@@ -33,15 +46,15 @@ void Archive::openFile(char*file)
     int identification=0;
     is.read((char*)&identification,sizeof(int));
 
-        std::cout<<"ID:"<<identification;
+        std::cout<<"ID:"<<identification<<std::endl;
         if(identification!=IDENTIFICATION)
         {
             is.close();
             throw MyException("This file is not from our database");
         }
-
     int hallsCount=0;
     is.read((char*)&hallsCount,sizeof(int));
+                std::cout<<"Halls:"<<hallsCount<<std::endl;
     for(int j=0; j<hallsCount; j++)
     {
         int id=0,eventsCount=0,rows=0,seats=0;
@@ -49,6 +62,7 @@ void Archive::openFile(char*file)
         is.read((char*)&rows,sizeof(int));
         is.read((char*)&seats,sizeof(int));
         is.read((char*)&eventsCount,sizeof(int));
+        std::cout<<id<<rows<<seats<<eventsCount<<std::endl;
         addHallFromFile(id,rows,seats,eventsCount);
         for(int i=0; i<eventsCount; i++)
         {
@@ -74,7 +88,6 @@ void Archive::openFile(char*file)
         }
     }
     std::cout<<"File with name:"<<file<<" has been uploaded"<<std::endl;
-
 }
 void Archive::addHallFromFile(int id,int rows,int seats,int eventsCount)
 {
@@ -83,5 +96,13 @@ void Archive::addHallFromFile(int id,int rows,int seats,int eventsCount)
         resizeArray(halls,hallsSize,hallsCapacity);
     }
     halls[hallsSize++]=new Hall(id,rows,seats,eventsCount);
+}
+
+void Archive::printHalls()
+{
+    for(int i=0;i<hallsSize;i++)
+    {
+        std::cout<<*halls[i]<<std::endl;
+    }
 }
 

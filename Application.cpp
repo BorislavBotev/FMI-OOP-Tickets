@@ -13,7 +13,14 @@ Application::~Application()
 
 void Application::run()
 {
-    archive->createHalls();
+    try{
+    archive->createInitialHalls();
+    }
+    catch(MyException e)
+    {
+        std::cout<<e.what()<<std::endl;
+        return;
+    }
     char input[100]= {""};
     while(strcmp(input,"exit")!=0)
     {

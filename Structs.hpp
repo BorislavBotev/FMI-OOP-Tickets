@@ -16,6 +16,23 @@ struct FileTicket
     char note[20];
     bool isBought;
 };
+struct FileHall
+{
+    int id;
+    int rows;
+    int seats;
+    int events;
+    FileHall (int id,int rows,int seats,int events=0)
+    {
+        this->id=id;
+        this->rows=rows;
+        this->  seats=seats;
+        this-> events=events;
+    }
+    FileHall(){}
+
+};
+
 /*struct Hall
 {
     int eventsCount;

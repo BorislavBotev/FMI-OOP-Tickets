@@ -27,4 +27,24 @@ void Hall::addEventFromFile(Event&event)
     }
     events[eventsSize++]=&event;
 }
+int Hall::getId()
+{
+    return id;
+}
+int Hall::getRows()
+{
+    return rows;
+}
+int Hall::getSeats()
+{
+    return seats;
+}
+int Hall::getEventsSize()
+{
+    return eventsSize;
+}
 
+std::ostream& operator<<(std::ostream& os, Hall &h)
+{
+    return os<<"Hall number:"<<h.getId()<<" with "<<h.getRows()<<" rows and "<<h.getSeats()<<" seats and "<<h.getEventsSize()<<" tickets sold so far";
+}
