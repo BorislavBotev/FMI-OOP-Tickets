@@ -3,7 +3,7 @@ Application::Application()
 {
     command=NULL;
     archive=new Archive();
-    isFileOpened=false;
+    isFileUploaded=false;
 }
 Application::~Application()
 {
@@ -36,7 +36,15 @@ void Application::run()
         }
         else
         {
-            command->execute();
+            try
+            {
+                command->execute(*archive);
+                isFileUploaded=true; //if a command executes (no matter which one) the file is uploaded
+            }
+            catch(MyException e)
+            {
+                std::cout<<e.what()<<std::endl;
+            }
         }
         delete command;
     }
@@ -44,18 +52,18 @@ void Application::run()
 Command* Application::getCorrectCommand(char*arr,int& index)
 {
     char*commandName=extractWordFromString(arr,index);
-    if(!isFileOpened && strcmp(commandName,"open")!=0)
+    if(!isFileUploaded && strcmp(commandName,"open")!=0)
     {
         delete[]commandName;
         throw MyException("First open a file");
     }
-    if(strcmp(arr,"open")==0)
+    if(strcmp(commandName,"open")==0)
     {
-        if(isFileOpened)
+        if(isFileUploaded)
         {
             throw MyException("First close the current file ");
         }
-        return new OpenCommand();
+        return new OpenCommand(arr,index);
     }
     else
     {

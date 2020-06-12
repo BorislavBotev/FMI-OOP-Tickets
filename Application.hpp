@@ -11,7 +11,7 @@ class Application
 {
     Command* command;
     Archive*archive;
-    bool isFileOpened;
+    bool isFileUploaded;
 
     Command* getCorrectCommand(char*arr,int& index);
 

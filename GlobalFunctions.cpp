@@ -17,7 +17,7 @@ char* extractWordFromString(const char*input,int& startingIndex)
     {
         startingIndex++;
     }
-    if(startingIndex-start==0)
+    if(startingIndex==start)
     {
         return NULL;
     }

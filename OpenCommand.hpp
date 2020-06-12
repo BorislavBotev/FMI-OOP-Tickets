@@ -3,11 +3,14 @@
 #include "Command.hpp"
 class OpenCommand:public Command
 {
-    public:
-         void execute(){}
-       ~OpenCommand();
+    char*file;
+     void parseInput();
+public:
+    void execute(Archive&database);
+    OpenCommand(char*input,int index);
+    ~OpenCommand();
 
 };
 
 
-#endif // OPENCOMMAND_HPP_INCLUDED
+#endif
