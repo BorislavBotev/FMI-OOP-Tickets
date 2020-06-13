@@ -128,13 +128,20 @@ void Archive::addEvent(char*name,char*date,int id)
     Event*e=new Event(name,date);
     halls[i]->addEventFromFile(*e);
 }
-void Archive::save()
+void Archive::save(char*file)
 {
     if(hallsSize==0)
     {
         std::cout<<"There are no halls-nothing to save"<<std::endl;
     }
-    std::ofstream os(DATABASE_NAME[0],std::ios::binary);
+    std::ofstream os;
+    if(!file){
+    os.open(DATABASE_NAME[0],std::ios::binary);
+    }
+    else
+    {
+        os.open(file,std::ios::binary);
+    }
     if(!os.is_open())
     {
         throw MyException("Can not open db for in order to save");
@@ -385,7 +392,7 @@ void Archive::hallsEventsSoldTicketsInfo(Hall&h,char*date1,char*date2)
     {
         if(isValidPeriod(date1,h.getEvents()[i]->getDate()) && isValidPeriod(h.getEvents()[i]->getDate(),date2))
         {
-            std::cout<<h.getEvents()[i]->getName()<<" - "<<h.getEvents()[i]->getTicketsSize()<<" tickets were booked/sold"<<std::endl;
+            std::cout<<h.getEvents()[i]->getName()<<" - "<<h.getEvents()[i]->getSoldTicketsCount()<<" tickets were sold"<<std::endl;
         }
     }
 }

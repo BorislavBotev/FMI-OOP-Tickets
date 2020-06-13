@@ -115,6 +115,10 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     {
         return new SaveCommand(arr,index);
     }
+      else if(strcmp(commandName,"saveas")==0)
+    {
+        return new SaveCommand(arr,index);
+    }
     else if(strcmp(commandName,"addevent")==0)
     {
         return new AddEventCommand(arr,index);

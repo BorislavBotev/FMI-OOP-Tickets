@@ -1,12 +1,30 @@
 #include "SaveCommand.hpp"
 
-SaveCommand::SaveCommand(char*input,int index):Command(input,index) {}
+SaveCommand::SaveCommand(char*input,int index):Command(input,index)
+{
+    file=NULL;
+}
 
+SaveCommand::~SaveCommand()
+{
+    delete[]file;
+}
 void SaveCommand::parseInput()
 {
-    if(getInput()[getIndex()]!='\0')
+    char*arr=getInput();
+    int index=getIndex();
+    if(arr[index]=='\0')
     {
-        throw MyException("Invalid command-Did you mean save");
+        return;
+    }
+    if(arr[index++]!=' ')
+    {
+        throw MyException("Invalid syntax");
+    }
+    file=extractStringWithNoSPaces(arr,index);
+    if(!file || arr[index]!='\0')
+    {
+        throw MyException("Invalid filename");
     }
 }
 void SaveCommand::execute(Archive&database)
@@ -20,6 +38,6 @@ void SaveCommand::execute(Archive&database)
         std::cout<<e.what()<<std::endl;
         return;
     }
-    database.save();
+    database.save(file);
 }
 

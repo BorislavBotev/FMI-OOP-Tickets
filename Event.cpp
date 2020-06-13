@@ -79,4 +79,16 @@ void Event::bookedTicketsInfo()
         }
     }
 }
+int Event::getSoldTicketsCount()
+{
+    int count=0;
+    for(int i=0;i<ticketsSize;i++)
+    {
+        if(tickets[i]->getIsBought())
+        {
+            count++;
+        }
+    }
+    return count;
+}
 

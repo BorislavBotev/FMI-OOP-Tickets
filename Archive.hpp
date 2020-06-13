@@ -29,7 +29,7 @@ public:
     void createInitialHalls();
     void openFile(char*file);
     void printHalls();
-    void save();
+    void save(char*file);
     void viewFreeSeats(char*name,char*date);
     void bookTicket(char*name,char*date,char*note,int row,int seat);
     void unbookTicket(char*name,char*date,int row,int seat);

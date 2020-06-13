@@ -15,6 +15,8 @@ public:
     void addTicket(Ticket&ticket);
     void removeTicket(int id);
     void bookedTicketsInfo();
+    int getSoldTicketsCount();
+
     Event(char*name,char*date);
     ~Event();
     char* getName()const;
