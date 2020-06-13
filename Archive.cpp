@@ -1,25 +1,31 @@
 #include "Archive.hpp"
 Archive::Archive()
 {
-    //currentHall=NULL;
     hallsSize=0;
     hallsCapacity=5;
     halls=new Hall*[hallsCapacity];
 }
 Archive::~Archive()
 {
-    // delete currentHall;
     deleteArray(halls,hallsSize);
     delete[]halls;
 }
 void Archive::createInitialHalls()
 {
+    std::ifstream is(DATABASE_NAME[0],std::ios::binary);
+    int id=0;
+    is.read((char*)&id,sizeof(int));
+    if(id==IDENTIFICATION)
+    {
+        is.close();
+        return;
+    }
     std::ofstream os(DATABASE_NAME[0],std::ios::binary);
     if(!os.is_open())
     {
         throw MyException("Can not download db");
     }
-    int id=IDENTIFICATION;
+    id=IDENTIFICATION;
     int countHalls=COUNT_HALLS;
     os.write((char const*)&id,sizeof(int));
     os.write((char const*)&countHalls,sizeof(int));
@@ -37,7 +43,6 @@ void Archive::openFile(char*file)
     {
         throw MyException("Invalid file provided");
     }
-    std::cout<<file<<std::endl;
     std::ifstream is(file,std::ios::binary);
     if(is.bad())
     {
@@ -46,8 +51,6 @@ void Archive::openFile(char*file)
     }
     int identification=0;
     is.read((char*)&identification,sizeof(int));
-
-    std::cout<<"ID:"<<identification<<std::endl;
     if(identification!=IDENTIFICATION)
     {
         is.close();
@@ -55,7 +58,6 @@ void Archive::openFile(char*file)
     }
     int hallsCount;
     is.read((char*)&hallsCount,sizeof(int));
-    std::cout<<"Halls:"<<hallsCount<<std::endl;
     for(int j=0; j<hallsCount; j++)
     {
         int id=0,eventsCount=0,rows=0,seats=0;
@@ -63,24 +65,18 @@ void Archive::openFile(char*file)
         is.read((char*)&rows,sizeof(int));
         is.read((char*)&seats,sizeof(int));
         is.read((char*)&eventsCount,sizeof(int));
-        std::cout<<id<<rows<<seats<<eventsCount<<std::endl;
         addHallFromFile(id,rows,seats,eventsCount);
-        std::cout<<"HELLOOOOOOOOO"<<std::endl;
         for(int i=0; i<eventsCount; i++)
         {
-            FileEvent* e;
+            FileEvent* e=new FileEvent();
             is.read((char*)e,(sizeof(FileEvent)));
-            std::cout<<e->name<<e->date<<e->tickets<<std::endl;
             if(e==NULL)
             {
                 is.close();
                 throw MyException("Can not read event");
             }
-            std::cout<<"Excuse me"<<std::endl;
 
             Event*event=new Event(e->name,e->date);
-            std::cout<<"afasfa"<<std::endl;
-
             if(e->tickets>0)
             {
                 FileTicket*t=new FileTicket[e->tickets];
@@ -90,11 +86,11 @@ void Archive::openFile(char*file)
                     event->addTicketFromFile(t[k]);
                 }
             }
-            std::cout<<hallsSize-1<<std::endl;
             halls[hallsSize-1]->addEventFromFile(*event);
-
+            delete e;
         }
     }
+    printHalls();
     std::cout<<"File with name:"<<file<<" has been uploaded"<<std::endl;
     is.close();
 }
@@ -106,7 +102,6 @@ void Archive::addHallFromFile(int id,int rows,int seats,int eventsCount)
     }
     halls[hallsSize]=new Hall(id,rows,seats,eventsCount);
     hallsSize++;
-    std::cout<<"Hallsize:"<<hallsSize<<std::endl;
 }
 void Archive::addEvent(char*name,char*date,int id)
 {
@@ -156,7 +151,6 @@ void Archive::save()
         {
             Event**ev=halls[i]->getEvents();
             FileEvent e(ev[j]->getName(),ev[j]->getDate(),ev[j]->getTicketsSize());
-            std::cout<<"Event "<<ev[j]->getName()<<ev[j]->getDate()<<ev[j]->getTicketsSize()<<std::endl;
             os.write((char const*)&e,sizeof(FileEvent));
             for(int k=0; k<ev[j]->getTicketsSize(); k++)
             {
@@ -171,7 +165,6 @@ void Archive::save()
 }
 void Archive::viewFreeSeats(char*name,char*date)
 {
-    std::cout<<"have fun";
     if(!name || !date)
     {
         throw MyException("Null pointer");
@@ -187,6 +180,11 @@ void Archive::viewFreeSeats(char*name,char*date)
         std::cout<<e.what()<<std::endl;
         return;
     }
+    viewAllSeatsInEvent(*e,r,c);
+}
+
+void Archive::viewAllSeatsInEvent(Event& e,int r,int c)
+{
     char arr[r][c];
     std::cout<<"E-empty,S-Sold,B-Booked"<<std::endl;
     for(int i=0; i<r; i++)
@@ -196,16 +194,16 @@ void Archive::viewFreeSeats(char*name,char*date)
             arr[i][j]='E';
         }
     }
-    Ticket**t=e->getTickets();
-    for(int i=0; i<e->getTicketsSize(); i++)
+    Ticket**t=e.getTickets();
+    for(int i=0; i<e.getTicketsSize(); i++)
     {
         if(t[i]->getIsBought())
         {
-            arr[t[i]->getRow()][t[i]->getSeat()]='S';
+            arr[t[i]->getRow()-1][t[i]->getSeat()-1]='S';
         }
         else
         {
-            arr[t[i]->getRow()][t[i]->getSeat()]='B';
+            arr[t[i]->getRow()-1][t[i]->getSeat()-1]='B';
         }
     }
     for(int i=0; i<r; i++)
@@ -217,6 +215,113 @@ void Archive::viewFreeSeats(char*name,char*date)
         std::cout<<std::endl;
     }
 }
+void Archive::bookTicket(char*name,char*date,char*note,int row,int seat)
+{
+    if(!name || !date || !note)
+    {
+        throw MyException("Null pointer");
+    }
+    Event*e=NULL;
+    int r=0,c=0;
+    try
+    {
+        e=&getEventByNameAndDate(name,date,r,c);
+    }
+    catch(MyException e)
+    {
+        std::cout<<e.what()<<std::endl;
+        return;
+    }
+    if(row<1 || row>r|| seat<1 || seat>c)
+    {
+        throw MyException("There is no such seat in this hall");
+    }
+    for(int i=0; i<e->getTicketsSize(); i++)
+    {
+        if(e->getTickets()[i]->getRow()==row && e->getTickets()[i]->getSeat()==0)
+        {
+            throw MyException("This seat is already taken i am sorry");
+        }
+    }
+    Ticket*ticket=new Ticket(name,date,row,seat,note,false);
+    e->addTicket(*ticket);
+    std::cout<<"Successfully booked ticket"<<std::endl;
+}
+void Archive::buyTicket(char*name,char*date,int row,int seat)
+{
+    if(!name || !date)
+    {
+        throw MyException("Null pointer");
+    }
+    Event*e=NULL;
+    int r=0,c=0;
+    try
+    {
+        e=&getEventByNameAndDate(name,date,r,c);
+    }
+    catch(MyException e)
+    {
+        std::cout<<e.what()<<std::endl;
+        return;
+    }
+    if(row<1 || row>r|| seat<1 || seat>c)
+    {
+        throw MyException("There is no such seat in this hall");
+    }
+    for(int i=0; i<e->getTicketsSize(); i++)
+    {
+        if(e->getTickets()[i]->getRow()==row && e->getTickets()[i]->getSeat()==0)
+        {
+            throw MyException("This seat is already taken i am sorry");
+        }
+    }
+    Ticket*ticket=new Ticket(name,date,row,seat,"",true);
+    e->addTicket(*ticket);
+    std::cout<<"Successfully bought ticket"<<std::endl;
+}
+void Archive::unbookTicket(char*name,char*date,int row,int seat)
+{
+    if(!name || !date)
+    {
+        throw MyException("NULL pointer given");
+    }
+    Event*e=NULL;
+    int r=0,c=0;
+    try
+    {
+        e=&getEventByNameAndDate(name,date,r,c);
+    }
+    catch(MyException e)
+    {
+        std::cout<<e.what()<<std::endl;
+        return;
+    }
+    if(row<1 || row>r|| seat<1 || seat>c)
+    {
+        throw MyException("There is no such seat in this hall");
+    }
+    for(int i=0; i<e->getTicketsSize(); i++)
+    {
+        if(e->getTickets()[i]->getRow()==row && e->getTickets()[i]->getSeat()==seat)
+        {
+            e->removeTicket(i);
+            std::cout<<"Succesfully unbooked ticket for "<<name<<" "<<date<<" "<<row<<"-"<<seat<<std::endl;
+            return;
+        }
+    }
+    throw MyException("There is no ticket booked or bought for this seat");
+}
+void Archive::bookinsInfo(char*name,char*date)
+{
+    if(name && date)
+    {
+        Event*e=*getEventByNameAndDate(name,date);
+
+    }
+}
+
+
+
 Event& Archive::getEventByNameAndDate(char*name,char*date,int& r,int&c)
 {
     for(int i=0; i<hallsSize; i++)
@@ -224,7 +329,7 @@ Event& Archive::getEventByNameAndDate(char*name,char*date,int& r,int&c)
         Event**e=halls[i]->getEvents();
         for(int j=0; j<halls[i]->getEventsSize(); j++)
         {
-            if(strcmp(name,e[j]->getName())==0 && strcmp(date,e[j]->getDate()))
+            if(strcmp(name,e[j]->getName())==0 && strcmp(date,e[j]->getDate())==0)
             {
                 r=halls[i]->getRows();
                 c=halls[i]->getSeats();
@@ -234,6 +339,22 @@ Event& Archive::getEventByNameAndDate(char*name,char*date,int& r,int&c)
     }
     throw MyException("There is no such event");
 }
+Event& Archive::getEventByNameAndDate(char*name,char*date)
+{
+    for(int i=0; i<hallsSize; i++)
+    {
+        Event**e=halls[i]->getEvents();
+        for(int j=0; j<halls[i]->getEventsSize(); j++)
+        {
+            if(strcmp(name,e[j]->getName())==0 && strcmp(date,e[j]->getDate())==0)
+            {
+                return *e[j];
+            }
+        }
+    }
+    throw MyException("There is no such event");
+}
+
 
 
 void Archive::printHalls()
@@ -243,12 +364,5 @@ void Archive::printHalls()
         std::cout<<*halls[i]<<std::endl;
     }
 }
-void Archive::close()
-{
-    /* deleteArray(halls,hallsSize);
-     delete[]halls;
-     hallsSize=0;
-     hallsCapacity=5;
-     std::cout<<"Sucessfully closed file"<<std::endl;*/
-}
+
 

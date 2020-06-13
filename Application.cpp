@@ -34,9 +34,9 @@ void Application::run()
         }
         catch(CloseException e)
         {
-            //dsfdfsdfsdfsdfsd
             delete archive;
             archive=new Archive();
+            std::cout<<"Successfully closed file"<<std::endl;
             continue;
         }
         catch(ExitException e)
@@ -47,8 +47,6 @@ void Application::run()
         catch(MyException e)
         {
             std::cout<<e.what()<<std::endl;
-           // delete command;
-            //command=NULL;
             continue;
         }
         if(command==NULL)
@@ -95,7 +93,6 @@ Command* Application::getCorrectCommand(char*arr,int& index)
             delete []commandName;
             throw MyException("There is no opened file");
         }
-        archive->close();
         isFileUploaded=false;
         throw CloseException();
     }
@@ -115,7 +112,7 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     }
     else if(strcmp(commandName,"save")==0)
     {
-       return new SaveCommand(arr,index);
+        return new SaveCommand(arr,index);
     }
     else if(strcmp(commandName,"addevent")==0)
     {
@@ -124,6 +121,18 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     else if(strcmp(commandName,"freeseats")==0)
     {
         return new FreeSeatsCommand(arr,index);
+    }
+    else if(strcmp(commandName,"book")==0)
+    {
+        return new BookCommand(arr,index);
+    }
+    else if(strcmp(commandName,"unbook")==0)
+    {
+        return new UnbookCommand(arr,index);
+    }
+    else if(strcmp(commandName,"buy")==0)
+    {
+        return new BuyCommand(arr,index);
     }
     else
     {

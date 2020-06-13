@@ -72,5 +72,5 @@ bool Hall::isDateFree(char*date)
 
 std::ostream& operator<<(std::ostream& os, Hall &h)
 {
-    return os<<"Hall number:"<<h.getId()<<" with "<<h.getRows()<<" rows and "<<h.getSeats()<<" seats and "<<h.getEventsSize()<<" tickets sold so far";
+    return os<<"Hall number:"<<h.getId()<<" with "<<h.getRows()<<" rows and "<<h.getSeats()<<" seats and "<<h.getEventsSize()<<" events so far";
 }

@@ -32,7 +32,7 @@ char* extractStringWithNoSPaces(const char*input,int& startingIndex)
     {
         return NULL;
     }
-    while(input[startingIndex]!=' ')
+    while(input[startingIndex]!=' ' && input[startingIndex]!='\0')
     {
         startingIndex++;
     }
@@ -101,3 +101,47 @@ bool isValidDateFormat(const char*date)
     }
     return true;
 }
+void validEventSeatInput(char*&name,char*&date,int& row,int& seat,const char*arr,int&index)
+{
+     if(strlen(arr)==0)
+    {
+        throw MyException("Write files name");
+    }
+    index++;
+    row=extractNumberFromString(arr,index);
+    if(row==-1)
+    {
+        throw MyException("Invalid row");
+    }
+    if(arr[index++]!=' ')
+    {
+        throw MyException("Invalid syntax");
+    }
+    seat=extractNumberFromString(arr,index);
+    if(seat==-1)
+    {
+        throw MyException("Invalid seat");
+    }
+    if(arr[index++]!=' ')
+    {
+        throw MyException("Invalid syntax");
+    }
+    date=extractStringWithNoSPaces(arr,index);
+    //std::cout<<date<<std::endl;
+    if(!date || !isValidDateFormat(date))
+    {
+        throw MyException("Invalid date");
+    }
+    if(arr[index++]!=' ')
+    {
+        //delete[]date;
+        throw MyException("Invalid syntax");
+    }
+    name=extractStringWithNoSPaces(arr,index);
+    if(!name)
+    {
+        //delete[]date;
+        throw MyException("Invalid name");
+    }
+}
+

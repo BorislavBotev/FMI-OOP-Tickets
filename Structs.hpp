@@ -11,7 +11,7 @@ struct FileEvent
         strcpy(date,d);
         tickets=t;
     }
-    FileEvent();
+    FileEvent(){};
 };
 struct FileTicket
 {

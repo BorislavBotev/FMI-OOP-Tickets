@@ -15,17 +15,25 @@ class Archive
     int hallsSize;
     int hallsCapacity;
     void addHallFromFile(int id,int rows,int seats,int eventsCount);
+    void viewAllSeatsInEvent(Event& e,int r,int c);
     Event& getEventByNameAndDate(char*name,char*date,int& r,int&c);
+    Event& getEventByNameAndDate(char*name,char*date);
+
 
 public:
     Archive();
     ~Archive();
     void createInitialHalls();
     void openFile(char*file);
-    void close();
     void printHalls();
     void save();
-            void viewFreeSeats(char*name,char*date);
+    void viewFreeSeats(char*name,char*date);
+    void bookTicket(char*name,char*date,char*note,int row,int seat);
+    void unbookTicket(char*name,char*date,int row,int seat);
+    void buyTicket(char*name,char*date,int row,int seat);
+    void bookinsInfo(char*name,char*date);
+
+
 
 
 

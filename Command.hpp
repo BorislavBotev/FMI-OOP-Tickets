@@ -5,7 +5,7 @@
 #include "MyException.hpp"
 class Command
 {
-    char*input;;
+    char*input;
     int readingIndex;
 public:
     Command(char*i,int indexx);

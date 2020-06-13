@@ -32,6 +32,7 @@ void FreeSeatsCommand::parseInput()
     name=extractStringWithNoSPaces(arr,startingIndex);
     if(!name || arr[startingIndex]!='\0')
     {
+        std::cout<<(int)arr[startingIndex]<<std::endl;
         delete[]date;
         delete[]name;
         throw MyException("Invalid name");
@@ -55,6 +56,8 @@ void FreeSeatsCommand::execute(Archive&database)
     try
     {
         database.viewFreeSeats(n,d);
+        delete[]n;
+        delete[]d;
     }
     catch(MyException e)
     {
@@ -62,6 +65,5 @@ void FreeSeatsCommand::execute(Archive&database)
         delete[]d;
         throw e;
     }
-    delete[]n;
-    delete[]d;
+
 }

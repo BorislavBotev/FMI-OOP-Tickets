@@ -3,11 +3,11 @@ Event::Event(char*name,char*date)
 {
     createString(this->name,name);
     createString(this->date,date);
-    tickets=NULL;
     ticketsSize=0;
     ticketsCapacity=5;
-
+    tickets=new Ticket*[ticketsCapacity];
 }
+
 Event::~Event()
 {
     delete[]name;
@@ -47,3 +47,37 @@ void Event::addTicketFromFile(FileTicket&t)
     }
     tickets[ticketsSize++]=new Ticket(t.name,t.date,t.row,t.seat,t.note,t.isBought);
 }
+void Event::addTicket(Ticket&ticket)
+{
+    if(ticketsSize==ticketsCapacity)
+    {
+        resizeArray(tickets,ticketsSize,ticketsCapacity);
+    }
+    tickets[ticketsSize++]=&ticket;
+}
+void Event::removeTicket(int id)
+{
+    if(tickets[id]==NULL)
+    {
+        throw MyException("Null pointer at ticket id");
+    }
+    delete tickets[id];
+    for(int index=id; index<ticketsSize-1; index++)
+    {
+        tickets[index]=tickets[index+1];
+    }
+    ticketsSize--;
+}
+void Event::bookedTicketsInfo()
+{
+    if(ticketsSize==0)
+    {
+        std::cout<<"There are no booked or sold tickets"<<std::endl;
+    }
+    std::cout<<"Event "<<name<<" on "<<date<<" has "<<ticketsSize<<" booked tickets"<<std::endl;
+    for(int i=0;i<ticketsSize;i++)
+    {
+        std::cout<<*tickets[i]<<std::endl;
+    }
+}
+

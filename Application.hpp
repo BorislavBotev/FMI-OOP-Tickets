@@ -12,6 +12,9 @@
 #include "SaveCommand.hpp"
 #include "AddEventCommand.hpp"
 #include "FreeSeatsCommand.hpp"
+#include "BookCommand.hpp"
+#include "UnbookCommand.hpp"
+#include "BuyCommand.hpp"
 class Application
 {
     Command* command;
