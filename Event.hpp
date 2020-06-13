@@ -14,6 +14,13 @@ public:
     void addTicketFromFile(FileTicket&t);
     Event(char*name,char*date);
     ~Event();
+    char* getName()const;
+char* getDate()const;
+int getTicketsSize() const;
+ Ticket** getTickets()const;
+
+
+
 
 };
 

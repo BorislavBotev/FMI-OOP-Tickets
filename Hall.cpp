@@ -9,6 +9,11 @@ Hall:: Hall(int id,int rows,int seats)
     eventsSize=0;
     eventsCapacity=5;
 }
+Hall::~Hall()
+{
+    deleteArray(events,eventsSize);
+    delete[]events;
+}
 Hall:: Hall(int id,int rows,int seats,int eventsCount)
 {
     this->id=id;
@@ -26,6 +31,7 @@ void Hall::addEventFromFile(Event&event)
         resizeArray(events,eventsSize,eventsCapacity);
     }
     events[eventsSize++]=&event;
+    std::cout<<event.getName()<<std::endl;
 }
 int Hall::getId()
 {
@@ -43,6 +49,26 @@ int Hall::getEventsSize()
 {
     return eventsSize;
 }
+ Event** Hall::getEvents()const
+{
+    return events;
+}
+bool Hall::isDateFree(char*date)
+{
+    if(!date)
+    {
+        return false;
+    }
+    for(int i=0;i<eventsSize;i++)
+    {
+        if(strcmp(events[i]->getDate(),date)==0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 std::ostream& operator<<(std::ostream& os, Hall &h)
 {

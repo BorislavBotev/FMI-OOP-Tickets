@@ -9,6 +9,9 @@
 #include "OpenCommand.hpp"
 #include "CloseException.hpp"
 #include "ExitException.hpp"
+#include "SaveCommand.hpp"
+#include "AddEventCommand.hpp"
+#include "FreeSeatsCommand.hpp"
 class Application
 {
     Command* command;

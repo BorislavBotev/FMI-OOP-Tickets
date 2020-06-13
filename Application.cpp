@@ -34,6 +34,9 @@ void Application::run()
         }
         catch(CloseException e)
         {
+            //dsfdfsdfsdfsdfsd
+            delete archive;
+            archive=new Archive();
             continue;
         }
         catch(ExitException e)
@@ -41,12 +44,11 @@ void Application::run()
             std::cout<<"Exit"<<std::endl;
             return;
         }
-
         catch(MyException e)
         {
             std::cout<<e.what()<<std::endl;
-            delete command;
-            command=NULL;
+           // delete command;
+            //command=NULL;
             continue;
         }
         if(command==NULL)
@@ -110,6 +112,18 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     {
         delete[]commandName;
         throw MyException("First open a file");
+    }
+    else if(strcmp(commandName,"save")==0)
+    {
+       return new SaveCommand(arr,index);
+    }
+    else if(strcmp(commandName,"addevent")==0)
+    {
+        return new AddEventCommand(arr,index);
+    }
+    else if(strcmp(commandName,"freeseats")==0)
+    {
+        return new FreeSeatsCommand(arr,index);
     }
     else
     {

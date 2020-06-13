@@ -4,6 +4,11 @@
 void createString(char*&des,const char*src);
 char* extractWordFromString(const char*input,int& startingIndex);
 void createSubString(char*&name,const char*input,int start,int finish);
+int extractNumberFromString(const char*arr,int& startingIndex);
+bool isValidDateFormat(const char*date);
+char* extractStringWithNoSPaces(const char*input,int& startingIndex);
+
+
 template <typename T>
 void deleteArray(T**arr,int size)
 {

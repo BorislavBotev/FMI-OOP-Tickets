@@ -13,11 +13,17 @@ class Hall
 public:
     Hall(int id,int rows,int seats);
     Hall(int id,int rows,int seats,int eventsCount);
+    ~Hall();
+
     void addEventFromFile(Event&event);
     int getId();
     int getRows();
     int getSeats();
     int getEventsSize();
+    bool isDateFree(char*date);
+     Event** getEvents()const;
+
+
 
 
 };

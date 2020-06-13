@@ -12,6 +12,14 @@ class Ticket
     bool isBought;
 public:
     Ticket(char*name,char*date,int row,int seat,char*note,bool isBought){}
+  ~Ticket();
+
+    char*getName()const{return name;}
+    char* getDate()const{return date;}
+    int getRow()const{return row;}
+    int getSeat()const{return seat;}
+    char*getNote()const{return note;}
+    bool getIsBought()const{return isBought;}
 };
 
 #endif // TICKET_HPP_INCLUDED
