@@ -44,7 +44,7 @@ void BookingsCommand::parseInput()
         throw MyException("Invalid syntax");
     }
 }
-void UnbookCommand::execute(Archive& database)
+void BookingsCommand::execute(Archive& database)
 {
     try
     {
@@ -67,7 +67,7 @@ void UnbookCommand::execute(Archive& database)
     }
     try
     {
-        database.bookinsInfo(n,d);
+        database.bookingsInfo(n,d);
         delete[]n;
         delete[]d;
     }

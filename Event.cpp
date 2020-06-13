@@ -70,10 +70,7 @@ void Event::removeTicket(int id)
 }
 void Event::bookedTicketsInfo()
 {
-    if(ticketsSize==0)
-    {
-        std::cout<<"There are no booked or sold tickets"<<std::endl;
-    }
+
     std::cout<<"Event "<<name<<" on "<<date<<" has "<<ticketsSize<<" booked tickets"<<std::endl;
     for(int i=0;i<ticketsSize;i++)
     {

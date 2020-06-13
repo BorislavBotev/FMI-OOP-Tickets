@@ -25,5 +25,5 @@ Ticket::Ticket(char*name,char*date,int row,int seat,char*note,bool b)
 }
 std::ostream& operator<<(std::ostream& os, Ticket &t)
 {
-    return os<<"Row:"<<t.getRow()<<"\nSeat"<<t.getSeat()<<"\nNote:"<<t.getNote();
+    return os<<"Row:"<<t.getRow()<<" Seat"<<t.getSeat()<<" Note:"<<t.getNote();
 }

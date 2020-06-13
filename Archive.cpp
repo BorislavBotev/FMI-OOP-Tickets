@@ -311,16 +311,43 @@ void Archive::unbookTicket(char*name,char*date,int row,int seat)
     }
     throw MyException("There is no ticket booked or bought for this seat");
 }
-void Archive::bookinsInfo(char*name,char*date)
+void Archive::bookingsInfo(char*name,char*date)
 {
     if(name && date)
     {
-        Event*e=*getEventByNameAndDate(name,date);
+        Event*e=&getEventByNameAndDate(name,date);
+        e->bookedTicketsInfo();
+        return;
+    }
+    if(!name && date)
+    {
+        std::cout<<"The events on date "<<date<<" are:"<<std::endl;
+        for(int i=0; i<hallsSize; i++)
+        {
+            Event**events=halls[i]->getEvents();
+            for(int j=0; j<halls[i]->getEventsSize(); j++)
+            {
+                if(strcmp(events[j]->getDate(),date)==0)
+                {
+                   events[j]->bookedTicketsInfo();
+                }
+            }
+        }
+    }
+    else
+    {
+        for(int i=0; i<hallsSize; i++)
+        {
+            std::cout<<"Hall:"<<halls[i]->getId()<<std::endl;
+            Event**events=halls[i]->getEvents();
+            for(int j=0; j<halls[i]->getEventsSize(); j++)
+            {
 
+              events[j]->bookedTicketsInfo();
+            }
+        }
     }
 }
-
-
 
 Event& Archive::getEventByNameAndDate(char*name,char*date,int& r,int&c)
 {

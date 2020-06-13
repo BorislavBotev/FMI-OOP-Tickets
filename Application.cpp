@@ -35,6 +35,7 @@ void Application::run()
         catch(CloseException e)
         {
             delete archive;
+            archive=NULL;
             archive=new Archive();
             std::cout<<"Successfully closed file"<<std::endl;
             continue;
@@ -133,6 +134,10 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     else if(strcmp(commandName,"buy")==0)
     {
         return new BuyCommand(arr,index);
+    }
+     else if(strcmp(commandName,"bookings")==0)
+    {
+        return new BookingsCommand(arr,index);
     }
     else
     {

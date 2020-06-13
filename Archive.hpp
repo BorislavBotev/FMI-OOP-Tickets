@@ -5,9 +5,10 @@
 #include "MyException.hpp"
 #include <fstream>
 #include "Structs.hpp"
+#include "Event.hpp"
 const int COUNT_HALLS=5;
 const int IDENTIFICATION=-123;
-const char DATABASE_NAME[1][10]={"db"};
+const char DATABASE_NAME[1][10]= {"db"};
 class Archive
 {
     //Hall* currentHall;
@@ -31,14 +32,8 @@ public:
     void bookTicket(char*name,char*date,char*note,int row,int seat);
     void unbookTicket(char*name,char*date,int row,int seat);
     void buyTicket(char*name,char*date,int row,int seat);
-    void bookinsInfo(char*name,char*date);
-
-
-
-
-
-void addEvent(char*name,char*date,int id);
-
+    void bookingsInfo(char*name,char*date);
+    void addEvent(char*name,char*date,int id);
 
 
 };

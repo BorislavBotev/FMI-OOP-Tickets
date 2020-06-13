@@ -13,22 +13,15 @@ class Event
 public:
     void addTicketFromFile(FileTicket&t);
     void addTicket(Ticket&ticket);
- void removeTicket(int id);
- void bookedTicketsInfo();
-
-
+    void removeTicket(int id);
+    void bookedTicketsInfo();
     Event(char*name,char*date);
     ~Event();
     char* getName()const;
-char* getDate()const;
-int getTicketsSize() const;
- Ticket** getTickets()const;
-
-
-
-
-
+    char* getDate()const;
+    int getTicketsSize() const;
+    Ticket** getTickets()const;
 };
 
 
-#endif // EVENT_HPP_INCLUDED
+#endif

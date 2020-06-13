@@ -15,12 +15,13 @@
 #include "BookCommand.hpp"
 #include "UnbookCommand.hpp"
 #include "BuyCommand.hpp"
+#include "BookingsCommand.hpp"
+
 class Application
 {
     Command* command;
     Archive*archive;
     bool isFileUploaded;
-
     Command* getCorrectCommand(char*arr,int& index);
 
 public:

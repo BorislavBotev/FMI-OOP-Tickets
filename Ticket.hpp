@@ -2,6 +2,7 @@
 #define TICKET_HPP_INCLUDED
 #include <cstring>
 #include "GlobalFunctions.hpp"
+#include <iostream>
 class Ticket
 {
     char*name;
@@ -39,7 +40,7 @@ public:
         return isBought;
     }
 };
-std::ostream& operator<<(std::ostream& os, Ticket &t)
+std::ostream& operator<<(std::ostream& os, Ticket &t);
 
 
 #endif // TICKET_HPP_INCLUDED

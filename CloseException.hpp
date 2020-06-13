@@ -15,5 +15,4 @@ public:
     }
 };
 
-
 #endif // CLOSEEXCEPTION_HPP_INCLUDED

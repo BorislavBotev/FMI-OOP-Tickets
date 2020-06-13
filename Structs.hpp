@@ -1,5 +1,6 @@
 #ifndef STRUCTS_HPP_INCLUDED
 #define STRUCTS_HPP_INCLUDED
+#include <cstring>
 struct FileEvent
 {
     char name[50];
@@ -11,7 +12,7 @@ struct FileEvent
         strcpy(date,d);
         tickets=t;
     }
-    FileEvent(){};
+    FileEvent(){}
 };
 struct FileTicket
 {
@@ -49,15 +50,6 @@ struct FileHall
     FileHall() {}
 
 };
-
-/*struct Hall
-{
-    int eventsCount;
-    int rows;
-    int seats;
-    FileEvent;
-    Ticket tickets[rows][seats];
-};*/
 
 
 #endif // STRUCTS_HPP_INCLUDED
