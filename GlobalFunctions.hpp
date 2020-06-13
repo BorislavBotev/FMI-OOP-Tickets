@@ -9,6 +9,7 @@ int extractNumberFromString(const char*arr,int& startingIndex);
 bool isValidDateFormat(const char*date);
 char* extractStringWithNoSPaces(const char*input,int& startingIndex);
 void validEventSeatInput(char*&name,char*&date,int& row,int& seat,const char*arr,int&ndex);
+bool isValidPeriod(const char*first,const char*second);
 
 
 template <typename T>

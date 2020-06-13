@@ -139,6 +139,10 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     {
         return new BookingsCommand(arr,index);
     }
+      else if(strcmp(commandName,"report")==0)
+    {
+        return new ReportCommand(arr,index);
+    }
     else
     {
         return NULL;

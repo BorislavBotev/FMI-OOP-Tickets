@@ -71,10 +71,12 @@ void Event::removeTicket(int id)
 void Event::bookedTicketsInfo()
 {
 
-    std::cout<<"Event "<<name<<" on "<<date<<" has "<<ticketsSize<<" booked tickets"<<std::endl;
+    std::cout<<"Event "<<name<<" on "<<date<<std::endl;
     for(int i=0;i<ticketsSize;i++)
     {
-        std::cout<<*tickets[i]<<std::endl;
+        if(!tickets[i]->getIsBought()){
+        std::cout<<"Ticket: "<<*tickets[i]<<std::endl;
+        }
     }
 }
 

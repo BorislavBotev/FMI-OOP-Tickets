@@ -16,6 +16,7 @@
 #include "UnbookCommand.hpp"
 #include "BuyCommand.hpp"
 #include "BookingsCommand.hpp"
+#include "ReportCommand.hpp"
 
 class Application
 {

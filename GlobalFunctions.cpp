@@ -144,4 +144,35 @@ void validEventSeatInput(char*&name,char*&date,int& row,int& seat,const char*arr
         throw MyException("Invalid name");
     }
 }
+bool isValidPeriod(const char*first,const char*second)
+{
+    int i1=0,i2=0;
+    int numberFirst=extractNumberFromString(first,i1);
+    int numberSecond=extractNumberFromString(second,i2);
+    if(numberSecond<numberFirst)
+    {
+        return false;
+    }
+    else if(numberSecond>numberFirst)
+    {
+        return true;
+    }
+    numberFirst=extractNumberFromString(first,++i1);
+    numberSecond=extractNumberFromString(second,++i2);
+    if(numberSecond<numberFirst)
+    {
+        return false;
+    }
+    else if(numberSecond>numberFirst)
+    {
+        return true;
+    }
+    numberFirst=extractNumberFromString(first,++i1);
+    numberSecond=extractNumberFromString(second,++i2);
+    if(numberSecond<numberFirst)
+    {
+        return false;
+    }
+    return true;
+}
 

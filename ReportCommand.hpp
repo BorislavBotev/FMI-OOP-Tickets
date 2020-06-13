@@ -3,7 +3,7 @@
 #include "Command.hpp"
 class ReportCommand:public Command
 {
-    char*name;
+    int hall;
     char*date1;
     char*date2;
     void parseInput();

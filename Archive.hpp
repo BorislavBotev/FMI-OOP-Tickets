@@ -19,6 +19,8 @@ class Archive
     void viewAllSeatsInEvent(Event& e,int r,int c);
     Event& getEventByNameAndDate(char*name,char*date,int& r,int&c);
     Event& getEventByNameAndDate(char*name,char*date);
+    void hallsEventsSoldTicketsInfo(Hall&h,char*date1,char*date2);
+
 
 
 public:
@@ -34,6 +36,8 @@ public:
     void buyTicket(char*name,char*date,int row,int seat);
     void bookingsInfo(char*name,char*date);
     void addEvent(char*name,char*date,int id);
+    void report(int hallId,char*date1,char*date2);
+
 
 
 };

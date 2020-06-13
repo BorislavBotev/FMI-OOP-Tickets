@@ -329,7 +329,7 @@ void Archive::bookingsInfo(char*name,char*date)
             {
                 if(strcmp(events[j]->getDate(),date)==0)
                 {
-                   events[j]->bookedTicketsInfo();
+                    events[j]->bookedTicketsInfo();
                 }
             }
         }
@@ -343,8 +343,49 @@ void Archive::bookingsInfo(char*name,char*date)
             for(int j=0; j<halls[i]->getEventsSize(); j++)
             {
 
-              events[j]->bookedTicketsInfo();
+                events[j]->bookedTicketsInfo();
             }
+        }
+    }
+}
+
+void Archive::report(int hallId,char*date1,char*date2)
+{
+    if(!date1 || !date2)
+    {
+        throw MyException("Null pointer");
+    }
+    if(!isValidPeriod(date1,date2))
+    {
+        throw MyException("Please make sure the second date is afetr the first one");
+    }
+    if(hallId==-1)
+    {
+        for(int i=0; i<hallsSize; i++)
+        {
+            hallsEventsSoldTicketsInfo(*halls[i],date1,date2);
+        }
+    }
+    else
+    {
+        for(int i=0;i<hallsSize;i++)
+        {
+            if(halls[i]->getId()==hallId)
+            {
+                hallsEventsSoldTicketsInfo(*halls[i],date1,date2);
+                return;
+            }
+        }
+        throw MyException("There is no such hall");
+    }
+}
+void Archive::hallsEventsSoldTicketsInfo(Hall&h,char*date1,char*date2)
+{
+    for(int i=0; i<h.getEventsSize(); i++)
+    {
+        if(isValidPeriod(date1,h.getEvents()[i]->getDate()) && isValidPeriod(h.getEvents()[i]->getDate(),date2))
+        {
+            std::cout<<h.getEvents()[i]->getName()<<" - "<<h.getEvents()[i]->getTicketsSize()<<" tickets were booked/sold"<<std::endl;
         }
     }
 }
