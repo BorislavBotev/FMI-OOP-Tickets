@@ -1,5 +1,7 @@
 #ifndef EXITEXCEPTION_HPP_INCLUDED
 #define EXITEXCEPTION_HPP_INCLUDED
+#include <exception>
+#include <cstring>
 class ExitException:public std::exception
 {
     char message[200];

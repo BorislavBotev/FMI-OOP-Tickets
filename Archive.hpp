@@ -9,6 +9,7 @@
 const int COUNT_HALLS=5;
 const int IDENTIFICATION=-123;
 const char DATABASE_NAME[1][10]= {"db"};
+const int BEST_EVENTS_COUNT=3;
 class Archive
 {
     //Hall* currentHall;
@@ -20,6 +21,8 @@ class Archive
     Event& getEventByNameAndDate(char*name,char*date,int& r,int&c);
     Event& getEventByNameAndDate(char*name,char*date);
     void hallsEventsSoldTicketsInfo(Hall&h,char*date1,char*date2);
+               void placeEventInIntArr(int arr[BEST_EVENTS_COUNT][2],Event&e,Hall&h);
+
 
 
 

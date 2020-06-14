@@ -50,11 +50,7 @@ void Application::run()
             std::cout<<e.what()<<std::endl;
             continue;
         }
-        if(command==NULL)
-        {
-            std::cout<<"Invalid command entered"<<std::endl;
-        }
-        else
+        if(command!=NULL)
         {
             try
             {
@@ -65,9 +61,10 @@ void Application::run()
             {
                 std::cout<<e.what()<<std::endl;
             }
+            delete command;
+            command=NULL;
         }
-        delete command;
-        command=NULL;
+
     }
 }
 Command* Application::getCorrectCommand(char*arr,int& index)
@@ -147,9 +144,6 @@ Command* Application::getCorrectCommand(char*arr,int& index)
     {
         return new ReportCommand(arr,index);
     }
-    else
-    {
-        return NULL;
-    }
+throw MyException("Invalid command");
 }
 

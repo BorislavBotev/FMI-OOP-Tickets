@@ -1,5 +1,7 @@
 #ifndef CLOSEEXCEPTION_HPP_INCLUDED
 #define CLOSEEXCEPTION_HPP_INCLUDED
+#include <exception>
+#include <cstring>
 class CloseException:public std::exception
 {
     char message[200];

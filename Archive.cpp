@@ -135,8 +135,9 @@ void Archive::save(char*file)
         std::cout<<"There are no halls-nothing to save"<<std::endl;
     }
     std::ofstream os;
-    if(!file){
-    os.open(DATABASE_NAME[0],std::ios::binary);
+    if(!file)
+    {
+        os.open(DATABASE_NAME[0],std::ios::binary);
     }
     else
     {
@@ -375,7 +376,7 @@ void Archive::report(int hallId,char*date1,char*date2)
     }
     else
     {
-        for(int i=0;i<hallsSize;i++)
+        for(int i=0; i<hallsSize; i++)
         {
             if(halls[i]->getId()==hallId)
             {
